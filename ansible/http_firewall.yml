@@ -1,0 +1,54 @@
+---
+- name: Install HTTPD and FIREWALL Enable both services
+  hosts: serverb.ingtondemo.com
+  vars:
+    packages:
+      - httpd
+      - firewalld
+
+  tasks:
+    - name: Install httpd and firewall applications
+      dnf:
+        name: "{{ item }}"
+        state: present
+      loop:
+        "{{ packages }}"
+
+    - name: Copy index.html 
+      template:
+        src: files/index.html.j2
+        dest: /var/www/html/index.html
+
+    - name: Enable firewall 
+      service:
+        name: firewalld
+        enabled: true
+        state: started
+
+    - name: Apply firewall rule
+      firewalld:
+        service: http
+        immediate: true
+        state: enabled
+        permanent: true
+
+    - name: Start and Enable httpd
+      service:
+        name: httpd
+        enabled: true
+        state: started
+
+- name: Check http server status
+  hosts: test 
+  become: false
+  tasks:
+    - name: Connect to interanet
+      uri:
+        url: http://serverb.ingtondemo.com:82
+        return_content: true
+        status_code: 200
+      
+        
+        
+
+    

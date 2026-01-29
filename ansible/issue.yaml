@@ -1,0 +1,21 @@
+---
+- name: Content of /etc/issue with single line
+  hosts: all
+  tasks:
+    - name: Development server
+      ansible.builtin.copy:
+        content: "Development\n"
+        dest: /etc/issue
+      when: inventory_hostname in groups ["dev"]
+    
+    - name: Test server
+      ansible.builtin.copy:
+        content: "Test\n"
+        dest: /etc/issue
+      when: inventory_hostname in groups ["test"]
+    
+    - name: Production server
+      ansible.builtin.copy:
+        content: "Production\n"
+        dest: /etc/issue
+      when: inventory_hostname in groups ["prod"]

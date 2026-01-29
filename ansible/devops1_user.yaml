@@ -1,0 +1,13 @@
+---
+- name: Create devops3 user in all system
+  hosts: all
+  tasks:
+    - name: Create user devops3
+      ansible.builtin.user:
+        name: devops3
+        group: sysmgrs
+        password: "devops2@123 | password_hash ('sha512')"
+        comment: Dev Ops User 3
+        state: present
+
+      

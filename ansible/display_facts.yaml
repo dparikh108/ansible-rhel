@@ -1,0 +1,7 @@
+---
+- name: Display ansible_facts for desired host
+  hosts: servera.ingtondemo.com
+  tasks:
+    - name: Display facts
+      ansible.builtin.debug:
+        var: ansible_facts

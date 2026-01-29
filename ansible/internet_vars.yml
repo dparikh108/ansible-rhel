@@ -1,0 +1,53 @@
+---
+- name: Create a internet services using variables
+  hosts: serverb.ingtondemo.com
+  vars:
+    web_pkg: httpd
+    firewall_pkg: firewalld
+    web_service: httpd
+    firewall_service: firewalld
+    firewall_rule: http
+
+  tasks:
+    - name: Install  httpd package and firewall packages
+      dnf:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - "{{ web_pkg }}"
+        - "{{ firewall_pkg }}"
+
+    - name: Enable firewall and start 
+      service: 
+        name: "{{ firewall_service }}"
+        state: started
+        enabled: true
+
+    - name: Enable httpd and start 
+      service: 
+        name: "{{ web_service }}"
+        state: started
+        enabled: true
+   
+    - name: Create index.html
+      template: 
+        src: files/index.html.j2
+        dest: /var/www/html/index.html
+
+
+    - name: Enable firewall rule
+      firewalld:
+        service: "{{ firewall_rule }}"
+        state: enabled
+        immediate: true
+        permanent: true
+
+- name: Check the internet services 
+  hosts: test
+  
+  tasks:
+    - name: Verify internet services status
+      uri:
+        url: http://serverb.ingtondemo.com:82
+        status_code: 200
+

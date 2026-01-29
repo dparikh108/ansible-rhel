@@ -1,0 +1,28 @@
+---
+- name: Web directory
+  hosts: dev
+  tasks:
+    - name: create a webdev group if not present
+      ansible.builtin.group:
+        name: webdev
+        state: present
+
+    - name: Create the directory /webdev
+      ansible.builtin.file:
+        path: /webdev
+        state: directory
+        mode: 2775
+        setype: httpd_sys_content_t
+
+    - name: Create a Symbolic Link /var/www/html/wedev to /webdev
+      ansible.builtin.file:
+        src: /webdev/index.html
+        dest: /var/www/html/index.html
+        state: link
+        force: yes
+
+    - name: Create a file /webdev/index.html content Development
+      ansible.builtin.copy:
+        content: Development
+        dest: /webdev/index.html
+        setype: httpd_sys_content_t

@@ -1,0 +1,9 @@
+---
+- name: Setup NTP on systems 
+  hosts: dev
+  vars: 
+    timesync_ntp_servers:
+      - hostname: workstation.ingtondemo.com
+        iburst: true
+  roles:
+    - redhat.rhel_system_roles.timesync

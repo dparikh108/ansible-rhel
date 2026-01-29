@@ -1,0 +1,49 @@
+---
+- name: Install package MariaDB and PHP
+  hosts: dev test prod
+  become: true
+  vars:
+    software_pkg:
+      - mariadb
+      - php
+
+  tasks:
+    - name: Install packages
+      ansible.builtin.dnf:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        "{{ software_pkg }}"
+
+    - name: Update the package which is installed
+      package_facts:
+        manager: auto
+
+    - name: Check if mariadb and php is installed
+      debug:
+        msg: "MariaDB and PHP is installed!"
+      when: "'mariadb' in ansible_facts.packages and 'php' in ansible_facts.packages"
+    
+- name: Install the RPM Development Tools Packages group on dev only
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: Install RPM Dev Tools Group
+      yum: 
+        name: '@RPM Development Tools'
+        state: latest
+
+    - name: Update all packages to latest version on dev hostgroup
+      yum:
+        name: "*"
+        state: latest
+    
+    - name: Update the package which is installed
+      package_facts:
+        manager: auto
+
+    - name: Check if RPM Dev Tool is installed
+      debug:
+        msg: "RPM Dev Tool is installed!"
+      when: "'RPM Development Tools' in ansible_facts.packages"

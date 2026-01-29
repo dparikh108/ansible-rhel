@@ -1,0 +1,49 @@
+---
+- name: User with job description of developer
+  hosts: dev test
+  vars_files:
+    - user_list.yml
+    - locker.yaml
+  tasks:
+    - name: Creating Group
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - devops
+
+    - name: Creating User with job description developer
+      user:
+        name: "{{ item.name }}"
+        state: present
+        groups: devops
+        password: "{{ PW_developer | password_hash ('sha512') }}"
+      loop:
+        "{{ users }}"
+      when: item.job == "developer"
+
+
+- name: User with job description of manager
+  hosts: prod 
+  vars_files:
+    - user_list.yml
+    - locker.yaml
+  tasks:
+    - name: Creating Group
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - opsmgr
+
+    - name: Creating User with job description developer
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: present
+        groups: opsmgr
+        password: "{{ PW_manager | password_hash ('sha512') }}"
+      loop:
+        "{{ users }}"
+      when: item.job == "manager"
+
+

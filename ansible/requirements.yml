@@ -1,0 +1,5 @@
+#- name: balancer
+#  src: https://github.com/pgvillage/ansible-role-haproxy/archive/main.tar.gz 
+
+- name: phpinfo
+  src: https://github.com/geerlingguy/ansible-role-php/archive/6.0.0.tar.gz 

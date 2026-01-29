@@ -1,0 +1,22 @@
+---
+- name: Install php and mariadb on dev, test and prod hostgroup
+  hosts: dev test prod
+
+  tasks:
+    - name: Install packages
+      yum:
+        name: 
+          - mariadb
+          - php
+        state: latest
+- name: Install RPM Development Tools on dev hostgroup
+  hosts: dev
+  tasks:
+    - name: Install Dev Tools
+      yum:
+        name: '@RPM Development Tools'
+        state: present
+    - name: Update all packages on dev hostgroup
+      yum:
+        name: "*"
+        state: latest

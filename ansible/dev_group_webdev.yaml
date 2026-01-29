@@ -1,0 +1,8 @@
+---
+- name: Create a webdev group on system
+  hosts: dev
+  tasks:
+    - name: Create a webdev group
+      ansible.builtin.group:
+        name: webdev
+        state: present

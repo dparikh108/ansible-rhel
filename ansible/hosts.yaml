@@ -1,0 +1,11 @@
+---
+- name: Update /etc/myhosts file on server
+  hosts: dev 
+  gather_facts: yes
+  tasks:
+    - name: Deploy /etc/myhosts file
+      ansible.builtin.template:
+        src: files/hosts.j2
+        dest: /etc/myhosts
+      
+

@@ -1,0 +1,51 @@
+---
+- name: Check wether LV is present and Configure
+  hosts: servera.ingtondemo.com
+  ignore_errors: yes
+
+  tasks:
+    - name: Check if volume group is present
+      ansible.builtin.command: vgs research
+      register: vg_status
+
+    - name: Error message if VG does not exists
+      ansible.builtin.debug:
+        msg: "Volume Group does not exist"
+      when: vg_status is failed
+
+    - name: Apply storage configuration
+      include_role:
+        name: redhat.rhel_system_roles.storage
+      vars:
+        storage_pools:
+          - name: research
+            type: lvm
+            volumes:
+              - name: data1
+                size: "1500m"
+                fs_type: ext4
+                state: present
+      when: vg_status is not failed
+      register: lv_status 
+
+#    - name: Creating new Data Logical Volume
+#      community.general.lvol:
+#        vg: research
+#        lv: data
+#        size: "{{ lvsize }}"
+#      when: vg_status is not failed
+#      register: lv_status
+#
+#    - ansible.builtin.debug: var=lv_status
+
+    - name: Error Message Logical Volume not created
+      ansible.builtin.debug:
+        msg: "Could not create LV of {{ lvsize }} size 800 MiB should be used instead"
+      #when: lv_status is failed and '"insufficient free space" in lv_status.err'
+      when:  lv_status is failed and '"exceeds available space" in pool in lv_status.err'
+
+#    - name: Format the Logival Volume in ext4 filesystem
+#      community.general.filesystem:
+#        fstype: ext4
+#        dev: /dev/research/data
+#      when: vg_status is not failed

@@ -1,0 +1,8 @@
+---
+- name: Setup SElinux
+  hosts: serverd.ingtondemo.com
+  tasks:
+    - name: Enable SELinux
+      redhat.rhel_system_roles.selinux:
+        policy: targeted
+        state: enforcing

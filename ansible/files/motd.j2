@@ -1,0 +1,9 @@
+This is a system "{{ ansible_facts['fqdn'] }}"
+This is a "{{ ansible_facts['distribution'] }} version "{{ ansible_facts['distribution_version'] }}"
+{% if ansible_facts['fqdn'] in groups['dev'] %}
+You are at development system, manage your own issues. No help No support 
+{% elif ansible_facts['fqdn'] in groups['prod'] %}
+All issue and problem must be reported to: "{{ system_owner }}"
+{% endif %}
+ 
+

@@ -1,0 +1,14 @@
+---
+- name: Check http status
+  hosts: servera.ingtondemo.com
+
+  tasks:
+    - name: Check status of http on servers
+      command: systemctl status httpd
+      register: http_status
+
+    - name: Display status
+      debug:
+        var: http_status
+
+

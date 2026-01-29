@@ -1,0 +1,8 @@
+---
+- name: Resolve host patterns
+  hosts: '*.ingtondemo.com' 
+  gather_facts: false
+  tasks:
+    - name: Display managed hosts matching the host pattern
+      debug:
+        msg: "{{ inventory_hostname }}"

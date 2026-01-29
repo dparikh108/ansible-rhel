@@ -1,0 +1,59 @@
+---
+- name: Check wether LV is present and Configure
+  hosts: dev 
+  ignore_errors: yes
+  vars:
+    lvsize: "1500m"
+    vg: research 
+    lv: data1
+
+  tasks:
+    - name: Checking if "{{ vg }}" is present
+      ansible.builtin.command: vgs research
+      register: vg_status
+      changed_when: false
+      
+    - name: Error message if VG does not exists
+      ansible.builtin.debug:
+        msg: "Volume Group does not exist"
+      when: vg_status is failed
+
+    - name: Create new LV and format with ext4
+      ansible.builtin.include_role:
+        name: redhat.rhel_system_roles.storage
+      vars:
+        storage_pools:
+          - name: "{{ vg }}"
+            type: lvm
+            volumes:
+              - name: "{{ lv }}"
+                size: "{{ lvsize }}"
+                fs_type: ext4
+                state: present
+      when: vg_status is not failed
+      register: lv_status
+
+    - name: Display lv_status
+      debug:
+        var: lv_status
+
+#    - name: Creating new Data Logical Volume
+#      community.general.lvol:
+#        vg: "{{ vg }}"
+#        lv: "{{ lv }}"
+#        size: "{{ lvsize }}"
+#      when: vg_status is not failed
+#      register: lv_status
+#        
+#    - name: Format the Logival Volume in ext4 filesystem
+#      community.general.filesystem:
+#        fstype: ext4
+#        dev: /dev/{{ vg }}/{{ lv }}
+#      when: vg_status is not failed and lv_status is not failed
+    
+    - name: Error Message Logical Volume not created
+      ansible.builtin.debug:
+        msg: "Could not create LV of {{ lvsize }} size 800 MiB should be used instead"
+      #when: lv_status is failed and '"insufficient free space" in lv_status.err'
+      when: lv_status is false
+

@@ -1,0 +1,24 @@
+---
+- name: Import Key and Configure Repository
+  hosts: all
+  tasks:
+    - name: Configure repository
+      yum_repository:
+        file: ansible
+        name: "{{ item.name }}"
+        description: "{{ item.description }}"
+        baseurl: "{{ item.baseurl }}"
+        enabled: no
+        gpgcheck: yes
+        gpgkey: "{{ item.gpgkey }}"
+        state: present
+      loop:
+        - name: EX294_BASEOS
+          baseurl: http://content.example.com/rhel10.0/x86_64/dev/BaseOS/
+          description: "EX294 base software"
+          gpgkey: http://content.example.com/rhel10.0/x86_64/dvd/RPM-GPG-KEY-redhat-release
+        - name: EX294_STREAM
+          baseurl: http://content.example.com/rhel10.0/x86_64/dev/AppStream/
+          description: "EX294 stream software"
+          gpgkey: http://content.example.com/rhel10.0/x86_64/dvd/RPM-GPG-KEY-redhat-release
+          

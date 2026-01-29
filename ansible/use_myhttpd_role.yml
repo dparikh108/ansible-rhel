@@ -1,0 +1,5 @@
+---
+- name: Install httpd using myhttpd role
+  hosts: dev
+  roles:
+    - myhttpd

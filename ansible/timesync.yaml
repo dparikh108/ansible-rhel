@@ -1,0 +1,12 @@
+---
+- name: Setup NTP on systems 
+  hosts: dev
+  
+  tasks:
+    - name: Setup a timesync server for hosts
+      include_role:
+        name: redhat.rhel_system_roles.timesync
+      vars:
+        timesync_ntp_servers:
+          - hostname: workstation.ingtondemo.com
+            iburst: true

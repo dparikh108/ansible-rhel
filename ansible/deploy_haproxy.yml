@@ -1,0 +1,20 @@
+---
+- name: Deploy haproxy on hosts
+  hosts: balancer
+  vars:
+    frontend_port: "8080"
+    backend_port: "80"
+    balance_mode: "roundrobin"
+    webserver1: serverb
+    webserver1_IP: "172.20.36.214"
+    webserver2: serverc
+    webserver2_IP: "172.20.36.215"
+
+  roles:
+    - name: haproxy-1
+      
+- name: Install and configure PHP server
+  hosts: webservers 
+
+  roles:
+    - name: phpfpm-1

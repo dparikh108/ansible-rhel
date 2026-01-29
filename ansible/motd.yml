@@ -1,0 +1,13 @@
+---
+- name: Create system message on the hosts
+  hosts: dev prod
+  vars:
+    - system_owner: dgp@ingtondemo.com
+  tasks:
+    - name: Create motd file on managed hosts
+      template:
+        src: files/motd.j2
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: "0644"

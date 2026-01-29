@@ -1,0 +1,15 @@
+Firewall_rules
+  - port: 8080/tcp
+
+  - zone: public
+    service: http
+    source: "172.20.36.213"
+
+haproxy_appservers
+  - name: serverb.ingtondemo.com
+    ip: "172.20.36.214"
+    backend_port: 80
+
+  - name: serverc.ingtondemo.com
+    ip: "172.20.36.215"
+    backend_port: 80

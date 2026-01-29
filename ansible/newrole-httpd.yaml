@@ -1,0 +1,5 @@
+---
+- name: Custom role install http
+  hosts: webservers
+  roles:
+    - apache

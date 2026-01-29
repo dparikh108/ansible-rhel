@@ -1,0 +1,9 @@
+---
+- name: Deploy haproxy role on balancer hostgroup
+  hosts: balancer
+  roles:
+    - balancer
+- name: Deploy phpinfo role in webserver hostgroup
+  hosts: webservers
+  roles:
+    - phpinfo

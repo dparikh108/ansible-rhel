@@ -1,0 +1,13 @@
+---
+- name: Get Hardware Report
+  hosts: serverd.ingtondemo.com
+  tasks:
+    - name: Download hwreport.empty file save it a hwreport.txt file under root
+      ansible.builtin.get_url:
+        url: http://servera.ingtondemo.com:84/hwreport/hwreport.empty
+        dest: /root/hwreport.txt
+
+    - name: format /root/hwreport.txt file
+      ansible.builtin.copy:
+        dest: /root/hwreport.txt
+        content: "Inventory Hostname: {{ ansible_facts['hostname'] }}\nTotal Menory in MB: {{ ansible_facts['memtotal_mb'] }}\nBIOS Version: {{ ansible_facts['bios_version'] }}\nSize of the disk sda: {{ ansible_facts['devices']['sda']['size'] }}\n"

@@ -1,0 +1,35 @@
+---
+- name: Import Key and Configure Repository
+  hosts: all
+  tasks:
+    - name: Configure BaseOS repository
+      yum_repository:
+        file: ansible
+        name: EX294_BASEOS
+        baseurl: http://content.example.com/rhel10.0/x86_64/dev/BaseOS/
+        description: "EX294 base software"
+        enabled: yes
+        gpgcheck: yes
+      
+
+    - name: Configure Steam Respository
+      yum_repository:
+        file: ansible
+        name: EX294_APPSTREAM
+        baseurl: http://content.example.com/rhel10.0/x86_64/dev/AppStream/
+        description: "EX294 AppStream software"
+        enabled: yes
+        gpgcheck: yes
+
+    - name: Add GPG KEY to repository
+      rpm_key:
+        key: http://content.example.com/rhel10.0/x86_64/dvd/RPM-GPG-KEY-redhat-release
+        state: present
+
+    - name: Check the presence of GPG-KEY
+      command: 'rpm -qa gpg-pubkey*'
+      register: gpgkey_status
+
+    - name: Display GPG-KEY status
+      debug:
+        var: gpgkey_status

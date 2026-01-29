@@ -1,0 +1,27 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for myhttpd
+- name: Install httpd server
+  dnf:
+    name: httpd
+    state: latest
+
+- name: Start httpd service
+  service:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Copy index.html from template
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify:
+    - Restart httpd
+
+- name: Enable firewall to accept http services
+  firewalld:
+    service: http
+    immediate: true
+    permanent: true
+    state: enabled

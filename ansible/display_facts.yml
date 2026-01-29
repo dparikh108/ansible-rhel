@@ -1,0 +1,15 @@
+---
+- name: Display ansible facts 
+  hosts: prod
+
+  tasks:
+    - name: Display facts for test hostgroup
+      debug:
+        var: ansible_facts
+
+    - name: Copy facts to file
+      copy:
+        content: "{{ ansible_facts | to_nice_json }}"
+        dest: "/home/devops/ansible/facts.json"
+      delegate_to: localhost
+    #  run_once: true

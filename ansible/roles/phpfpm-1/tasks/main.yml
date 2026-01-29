@@ -1,0 +1,23 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for phpfpm-1
+
+- name: Install a php server on the hosts
+  dnf:
+    name: php-fpm
+    state: present
+
+- name: Enable and start php on hosts
+  service:
+    name: php-fpm
+    state: started
+    enabled: true
+
+- name: Create php index file on hosts
+  template:
+    src: info.php.j2
+    dest: /var/www/html/hello.php
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart php-fpm
