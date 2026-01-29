@@ -1,0 +1,19 @@
+---
+- name: Create a hw report for hostgroups
+  hosts: all
+
+  tasks:
+    - name: Download empty hwreport file
+      get_url:
+        url: http://workstation.ingtondemo.com/hwreport.empty
+        dest: /root/hwreport.txt
+
+    - name: Update hw report with required information
+      copy:
+        content: |
+          Inventory hostname: {{ ansible_facts['hostname'] }}
+          Total Memory in MB: {{ ansible_facts['memtotal_mb'] }}
+          BIOS version: {{ ansible_facts['bios_version'] }}
+          Size of disk device sda: {{ ansible_facts['devices']['sda']['size']}}
+          Host FQDN: {{ ansible_facts['fqdn'] }}
+        dest: /root/hwreport.txt

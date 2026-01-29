@@ -1,0 +1,27 @@
+---
+# tasks file for apache
+- name: Install httpd packages
+  dnf:
+    name: httpd
+    state: present
+
+- name: Start and Enable httpd
+  service:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Firewall service to enable
+  firewalld:
+    service: http
+    state: enabled
+    immediate: true
+    permanent: true
+
+- name: Create a custom index.html file
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: "0644"

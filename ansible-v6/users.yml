@@ -1,0 +1,44 @@
+---
+- name: Create a users based on their job roles
+  hosts: dev
+  vars_files:
+    - user_list.yml
+    - locker.yml
+
+  tasks:
+    - name: Ensure required group devops is available
+      group:
+        name: devops
+        state: present
+
+    - name: Creating user based on developer job role
+      user:
+        name: "{{ item.name }}"
+        groups: devops
+        password: "{{ pw_developer | password_hash ('sha512') }}"
+        state: present
+      loop:
+        "{{ users }}"
+      when: item.job == "developer"
+
+- name: Create a users based on their job roles
+  hosts: prod
+  vars_files:
+    - user_list.yml
+    - locker.yml
+
+  tasks:
+    - name: Ensure required group opsmgr is available
+      group:
+        name: opsmgr
+        state: present
+
+    - name: Creating user based on developer job role
+      user:
+        name: "{{ item.name }}"
+        groups: opsmgr
+        password: "{{ pw_manager | password_hash ('sha512') }}"
+        state: present
+      loop:
+        "{{ users }}"
+      when: item.job == "manager"

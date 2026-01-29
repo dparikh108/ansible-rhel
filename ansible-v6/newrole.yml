@@ -1,0 +1,6 @@
+---
+- name: Create a http server on webservers hostgroup using custom role
+  hosts: webservers
+
+  roles:
+    - name: apache

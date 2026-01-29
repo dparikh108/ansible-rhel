@@ -1,0 +1,32 @@
+---
+- name: Create a custom webcontent directory
+  hosts: dev
+
+  tasks:
+    - name: Ensure webdev group is available
+      group:
+         name: webdev
+         state: present
+
+    - name: Create a webcontent folder /webdev
+      file:
+        path: /webdev
+        state: directory
+        group: webdev
+        mode: "2775"
+        setype: httpd_sys_content_t
+
+    - name: Create a Symbolic link for /webdev
+      file:
+        src: /webdev
+        dest: /var/www/html/webdev
+        state: link
+        force: yes
+
+    - name: Create custom index.html 
+      copy:
+        content: |
+          Development
+        dest: /webdev/index.html
+        mode: "0644"
+        setype: httpd_sys_content_t

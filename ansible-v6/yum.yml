@@ -1,0 +1,26 @@
+---
+- name: Create a yum repository on host groups
+  hosts: all
+
+  tasks:
+    - name: Create a BaseOS repository
+      ansible.builtin.yum_repository:
+        file: ansible6
+        name: EX294_BASEOS_6
+        description: "This is EX294 BASEOS6 "
+        baseurl: http://content.example.com/rhel8.0/x86_64/dvd/BaseOS/
+        gpgcheck: no
+        enabled: no
+        state: present
+
+    - name: Create a AppStream repository
+      yum_repository:
+        file: ansible6
+        name: EX294_STREAM_6
+        description: "This is EX294 APPSTREAM6"
+        baseurl: http://content.example.com/rhel8.0/x86_64/dvd/AppStream/
+        gpgcheck: no
+        enabled: no
+        state: present
+
+

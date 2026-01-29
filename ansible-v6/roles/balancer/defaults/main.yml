@@ -1,0 +1,10 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for haproxy-1
+frontend_port: 8080
+backend_port: 80
+balance_mode: roundrobin
+webserver1: serverb.ingtondemo.com
+webserver2: serverc.ingtondemo.com
+webserver1_IP: 172.20.36.214
+webserver2_IP: 172.20.36.215

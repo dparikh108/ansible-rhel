@@ -1,0 +1,10 @@
+---
+- name: Create a time server configuration on hostgroups
+  hosts: all
+
+  vars:
+    timesync_ntp_servers:
+      - hostname: servera.ingtondemo.com
+        iburst: true
+  roles:
+    - name: redhat.rhel_system_roles.timesync

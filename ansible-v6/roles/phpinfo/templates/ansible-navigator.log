@@ -1,0 +1,5 @@
+2026-01-07T11:42:44.415635+00:00 WARNING 'ansible_navigator.image_manager.puller._log_message' Image inspection failed, image assumed to be corrupted or missing
+2026-01-07T11:42:44.415999+00:00 WARNING 'ansible_navigator.image_manager.puller._log_message' stdout: []
+
+2026-01-07T11:42:44.416072+00:00 WARNING 'ansible_navigator.image_manager.puller._log_message' stderr: Error: ghcr.io/ansible/community-ansible-dev-tools:latest: image not known
+

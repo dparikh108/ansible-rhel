@@ -1,0 +1,25 @@
+---
+- name: Update issue file with environment information
+  hosts: all
+
+  tasks:
+    - name: Update issue file for dev hostgroup
+      copy:
+        content: |
+          Developments
+        dest: /etc/issue
+      when: inventory_hostname in groups['dev']  
+    
+    - name: Update issue file for balancer hostgroup
+      copy:
+        content: |
+          Balancers
+        dest: /etc/issue
+      when: inventory_hostname in groups['balancer']  
+    
+    - name: Update issue file for prod hostgroup
+      copy:
+        content: |
+          Productionss
+        dest: /etc/issue
+      when: inventory_hostname in groups['prod']  

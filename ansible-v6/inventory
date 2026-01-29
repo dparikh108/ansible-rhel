@@ -1,0 +1,15 @@
+[balancer]
+servera.ingtondemo.com
+
+[prod]
+serverb.ingtondemo.com
+serverc.ingtondemo.com
+
+[test]
+serverd.ingtondemo.com
+
+[dev]
+serverd.ingtondemo.com
+
+[webservers:children]
+prod

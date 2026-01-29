@@ -1,0 +1,5 @@
+- name: balancer
+  src: /home/devops6/ansible/haproxy-1-1.0.0.tar.gz
+
+- name: phpinfo
+  src: /home/devops6/ansible/phpfpm-1-1.0.0.tar.gz
