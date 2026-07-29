@@ -1,5 +1,6 @@
 ---
 - name: Install HTTPD and FIREWALL Enable both services
+  hosts: ec2-3-235-134-33.compute-1.amazonaws.com
   vars:
     packages:
       - httpd
