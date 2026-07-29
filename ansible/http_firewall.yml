@@ -1,6 +1,5 @@
 ---
 - name: Install HTTPD and FIREWALL Enable both services
-  hosts: serverb.ingtondemo.com
   vars:
     packages:
       - httpd
